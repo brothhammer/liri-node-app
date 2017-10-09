@@ -3,7 +3,7 @@ var Twitter = require('twitter');
 var request = require('request');
 var fs = require('fs');
 
-console.log(keys);
+// console.log(keys);
  
 var client = new Twitter({
   consumer_key: keys.consumer_key,
@@ -14,7 +14,15 @@ var client = new Twitter({
  
 var params = {screen_name: 'LearningNPM', limit:20};
 client.get('statuses/user_timeline', params, function(error, tweets, response) {
-  if (!error) {
-    console.log(tweets);
+  if (error) {
+    console.log(error);
+  }else{
+  	for (var i = 0; i < tweets.length; i++){
+
+  		console.log("_____________________________________________");
+       	console.log("Tweeted on: " + tweets[i].created_at);
+        console.log(tweets[i].text);
+        output="Tweeted on: " + tweets[i].created_at+"\r\n"+tweets[i].text+"\r\n";
+  	}
   }
 });
