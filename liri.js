@@ -6,6 +6,7 @@ var Spotify = require('node-spotify-api');
 var nodeArgs = process.argv;
 var movie = "";
 var song = "";
+var stuffToLog;
 
 //set up to show tweets when my-tweets entered in command line
 var command = process.argv[2];
@@ -59,7 +60,8 @@ function getTweets(){
 	  		console.log("_____________________________________________");
 	       	console.log("Tweeted on: " + tweets[i].created_at);
 	        console.log(tweets[i].text);
-	        output="Tweeted on: " + tweets[i].created_at+"\r\n"+tweets[i].text+"\r\n";
+	        stuffToLog = "Tweeted on: " + tweets[i].created_at+"\r\n"+tweets[i].text+"\r\n";
+	        writeLog();
 	  	}
 	  }
 	});
@@ -127,3 +129,11 @@ function doWhatItSays(){
 	});
 }
 
+function writeLog(){
+	fs.appendFile("log.txt", stuffToLog, function(error){
+		if(error){
+			return console.log(error);
+		}
+
+	})
+}
