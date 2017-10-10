@@ -5,26 +5,34 @@ var fs = require('fs');
 var Spotify = require('node-spotify-api');
 var nodeArgs = process.argv;
 var movie = "";
+var song = "";
 
 //set up to show tweets when my-tweets entered in command line
 var command = process.argv[2];
 
 if (command === "my-tweets"){ 
 	getTweets();
+
+
 }else if (command === "movie-this"){
-
 	for(i = 3; i<nodeArgs.length; i++){
-
 		if(i>3 && i<nodeArgs.length){
-
 			movie = movie + "+" + nodeArgs[i]
-
 		}else{ 
 			movie += nodeArgs[i]
 		}
 	}
 	movieInfo();
+
+
 }else if (command === "spotify-this-song"){
+	for(i = 3; i < nodeArgs.length; i++){
+		if(i>3 && i<nodeArgs.length){
+			song = song + "+" + nodeArgs[i]
+		}else{
+			song += nodeArgs[i];
+		}
+	}
 	songInfo();
 }
  
@@ -82,12 +90,14 @@ function songInfo(){
   secret: '09df482d8cd24a8e935e9eb3cd3d8267'
 });
 
-spotify.search({ type: 'track', query: 'All the Small Things' }, function(err, data) {
+spotify.search({ type: 'track', query: song }, function(err, data) {
   if (err) {
     return console.log('Error occurred: ' + err);
   }
- 
-console.log(data.tracks.items[0].name); 
+console.log("The artist of the song is: "+data.tracks.items[0].artists[0].name);
+console.log("The name of the song is: "+data.tracks.items[0].name);
+console.log("A preview of the song can be found at: "+data.tracks.items[0].preview_url);
+console.log("The song is on the album: "+data.tracks.items[0].album.name);
 });
 
 }
