@@ -134,6 +134,5 @@ function writeLog(){
 		if(error){
 			return console.log(error);
 		}
-
-	})
+	});
 }
