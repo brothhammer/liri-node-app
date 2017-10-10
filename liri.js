@@ -34,6 +34,9 @@ if (command === "my-tweets"){
 		}
 	}
 	songInfo();
+
+}else if(command === "do-what-it-says"){
+	doWhatItSays();
 }
  
 //called when my-tweets entered in command line to fetch last 20 tweets 
@@ -86,18 +89,41 @@ function movieInfo(){
 
 function songInfo(){
 	var spotify = new Spotify({
-  id: 'eaa9db0949434ba196f85db061a38659',
-  secret: '09df482d8cd24a8e935e9eb3cd3d8267'
-});
+	  	id: 'eaa9db0949434ba196f85db061a38659',
+	  	secret: '09df482d8cd24a8e935e9eb3cd3d8267'
+	});
 
-spotify.search({ type: 'track', query: song }, function(err, data) {
-  if (err) {
-    return console.log('Error occurred: ' + err);
-  }
-console.log("The artist of the song is: "+data.tracks.items[0].artists[0].name);
-console.log("The name of the song is: "+data.tracks.items[0].name);
-console.log("A preview of the song can be found at: "+data.tracks.items[0].preview_url);
-console.log("The song is on the album: "+data.tracks.items[0].album.name);
-});
-
+	spotify.search({ type: 'track', query: song }, function(err, data) {
+	  if (err) {
+	    return console.log('Error occurred: ' + err);
+	  }
+		console.log("The artist of the song is: "+data.tracks.items[0].artists[0].name);
+		console.log("The name of the song is: "+data.tracks.items[0].name);
+		console.log("A preview of the song can be found at: "+data.tracks.items[0].preview_url);
+		console.log("The song is on the album: "+data.tracks.items[0].album.name);
+	});
 }
+
+function doWhatItSays(){
+	fs.readFile("random.txt", "utf8", function(error, data){
+		var dataArray = data.split(',');
+		var command2 = dataArray[0];
+		var afterCommandEntry = dataArray[1]; 
+		// console.log(dataArray[0]);
+		// console.log(dataArray[1]);
+
+		if (command2 === "my-tweets"){ 
+			getTweets();
+
+		}else if (command2 === "movie-this"){
+			movie = afterCommandEntry.slice(1, -1).split(' ').join('+');
+			movieInfo();
+		
+		}else if (command2 === "spotify-this-song"){
+			song = afterCommandEntry.slice(1, -1).split(' ').join('+');
+			// console.log(song);
+			songInfo();
+		}else(console.log("command must be = to 'my-tweets' or 'movie-this' or 'spotify-this-song'"))
+	});
+}
+
